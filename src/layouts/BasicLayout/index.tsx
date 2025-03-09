@@ -14,6 +14,8 @@ import Link from "next/link";
 import GlobalFooter from "@/components/GlobalFooter";
 import "./index.css";
 import { menus } from "../../../config/menu";
+import {useSelector} from "react-redux";
+import {RootState} from "@/store";
 
 /**
  * 搜索条
@@ -61,7 +63,9 @@ interface Props {
 
 export default function BasicLayout({ children }: Props) {
   const pathname = usePathname();
-  return (
+    const loginUser = useSelector((state: RootState) => state.loginUser);
+
+    return (
     <div
       id="basicLayout"
       style={{
@@ -69,70 +73,70 @@ export default function BasicLayout({ children }: Props) {
         overflow: "auto",
       }}
     >
-      <ProLayout
-        layout={"top"}
-        title={"面试刷题平台"}
-        logo={
-          <Image
-            src="/assets/logo.png"
-            height={32}
-            width={32}
-            alt={"assets/logo,png"}
-          />
-        }
-        location={{
-          pathname,
-        }}
-        avatarProps={{
-          src: "https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg",
-          size: "small",
-          title: "顾琴",
-          render: (props, dom) => {
-            return (
-              <Dropdown
-                menu={{
-                  items: [
-                    {
-                      key: "logout",
-                      icon: <LogoutOutlined />,
-                      label: "退出登录",
-                    },
-                  ],
-                }}
-              >
-                {dom}
-              </Dropdown>
-            );
-          },
-        }}
-        actionsRender={(props) => {
-          if (props.isMobile) return [];
-          return [<SearchInput />, <GithubFilled key="GithubFilled" />];
-        }}
-        headerTitleRender={(logo, title, _) => {
-          return (
-            <a>
-              {logo}
-              {title}
-            </a>
-          );
-        }}
-        // 渲染底部栏
-        footerRender={() => {
-          return <GlobalFooter />;
-        }}
-        onMenuHeaderClick={(e) => console.log(e)}
-        menuDataRender={() => {
-          return menus;
-        }}
-        menuItemRender={(item, dom) => (
-          <Link href={item.path || "/"} target={item.target}>
-            {dom}
-          </Link>
-        )}
-      >
-        {children}
-      </ProLayout>
+        <ProLayout
+            layout={"top"}
+            title={"面试刷题平台"}
+            logo={
+                <Image
+                    src="/assets/logo.png"
+                    height={32}
+                    width={32}
+                    alt={"assets/logo,png"}
+                />
+            }
+            location={{
+                pathname,
+            }}
+            avatarProps={{
+                src: loginUser.userAvatar || "/assets/notLoginUser.png",
+                size: "small",
+                title: loginUser.userName || "顾琴",
+                render: (props, dom) => {
+                    return (
+                        <Dropdown
+                            menu={{
+                                items: [
+                                    {
+                                        key: "logout",
+                                        icon: <LogoutOutlined/>,
+                                        label: "退出登录",
+                                    },
+                                ],
+                            }}
+                        >
+                            {dom}
+                        </Dropdown>
+                    );
+                },
+            }}
+            actionsRender={(props) => {
+                if (props.isMobile) return [];
+                return [<SearchInput/>, <GithubFilled key="GithubFilled"/>];
+            }}
+            headerTitleRender={(logo, title, _) => {
+                return (
+                    <a>
+                        {logo}
+                        {title}
+                    </a>
+                );
+            }}
+            // 渲染底部栏
+            footerRender={() => {
+                return <GlobalFooter/>;
+            }}
+            onMenuHeaderClick={(e) => console.log(e)}
+            menuDataRender={() => {
+                return menus;
+            }}
+            menuItemRender={(item, dom) => (
+                <Link href={item.path || "/"} target={item.target}>
+                    {dom}
+                </Link>
+            )}
+        >
+            {children}
+        </ProLayout>
     </div>
-  );
+    );
 }
