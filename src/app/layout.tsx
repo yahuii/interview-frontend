@@ -7,6 +7,8 @@ import { Provider, useDispatch } from "react-redux";
 import store, { AppDispatch } from "@/store";
 import { getLoginUserUsingGet } from "@/api/userController";
 import { setLoginUser } from "@/store/loginUser";
+import LoginUserVO = API.LoginUserVO;
+import AccessLayout from "@/access/AccessLayout";
 
 /**
  * 全局初始化逻辑
@@ -27,8 +29,7 @@ const InitLayOut: React.FC<
     const res = await getLoginUserUsingGet();
     if (res.data) {
       // 更新全局状态
-      // @ts-ignore
-      dispatch(setLoginUser(res.data.data));
+      dispatch(setLoginUser(res.data as LoginUserVO));
     }
   }, []);
 
@@ -51,7 +52,9 @@ export default function RootLayout({
         <AntdRegistry>
           <Provider store={store}>
             <InitLayOut>
-              <BasicLayout>{children}</BasicLayout>
+              <BasicLayout>
+                <AccessLayout>{children}</AccessLayout>
+              </BasicLayout>
             </InitLayOut>
           </Provider>
         </AntdRegistry>
