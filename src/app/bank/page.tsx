@@ -1,18 +1,33 @@
-import Image from "next/image";
-import styles from ".././page.module.css";
-import {Button} from "antd";
+"use server";
+import Title from "antd/es/typography/Title";
+import {listQuestionBankVoByPageUsingPost} from "@/api/questionBankController";
+import QuestionBankList from "@/components/QuestionBankList";
+import "./index.css";
 
-export default function bank() {
+/**
+ * 题库列表页面
+ * @constructor
+ */
+export default async function BanksPage() {
+  let questionBankList: API.QuestionBankVO[] = [];
+  // 题库数量不多，直接全量获取
+  const pageSize = 200;
+
+  try {
+    const questionBankRes = await listQuestionBankVoByPageUsingPost({
+      pageSize,
+      sortField: "createTime",
+      sortOrder: "descend",
+    });
+    questionBankList = questionBankRes.data.records ?? [];
+  } catch (e: any) {
+    console.error("获取题库列表失败，" + e.message);
+  }
+
   return (
-      <main className={"main"}>
-        <div className={styles.description}>
-          <Button type="primary">Primary Button</Button>
-        </div>
-
-
-        <div>
-          这是题库
-        </div>
-      </main>
+    <div id="banksPage" className="max-width-content">
+      <Title level={3}>题库大全</Title>
+      <QuestionBankList questionBankList={questionBankList} />
+    </div>
   );
 }

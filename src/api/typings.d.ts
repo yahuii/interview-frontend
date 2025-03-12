@@ -36,12 +36,16 @@ declare namespace API {
   };
 
   type BaseResponsePageQuestion_ = {
+    total(total: any): number | undefined;
+    records: never[];
     code?: number;
     data?: PageQuestion_;
     message?: string;
   };
 
   type BaseResponsePageQuestionBank_ = {
+    total(total: any): number | undefined;
+    records: never[];
     code?: number;
     data?: PageQuestionBank_;
     message?: string;
@@ -60,12 +64,15 @@ declare namespace API {
   };
 
   type BaseResponsePageQuestionBankVO_ = {
+    records: never[];
     code?: number;
     data?: PageQuestionBankVO_;
     message?: string;
   };
 
   type BaseResponsePageQuestionVO_ = {
+    total: number;
+    records: never[];
     code?: number;
     data?: PageQuestionVO_;
     message?: string;
@@ -402,6 +409,7 @@ declare namespace API {
     title?: string;
     updateTime?: string;
     userId?: number;
+    userName?: string;
   };
 
   type QuestionAddRequest = {
@@ -508,7 +516,7 @@ declare namespace API {
     description?: string;
     id?: number;
     picture?: string;
-    questionPage?: PageQuestion_;
+    questionPage?: PageQuestionVO_;
     title?: string;
     user?: UserVO;
     userId?: number;
