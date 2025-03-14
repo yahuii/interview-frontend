@@ -36,16 +36,12 @@ declare namespace API {
   };
 
   type BaseResponsePageQuestion_ = {
-    total(total: any): number | undefined;
-    records: never[];
     code?: number;
     data?: PageQuestion_;
     message?: string;
   };
 
   type BaseResponsePageQuestionBank_ = {
-    total(total: any): number | undefined;
-    records: never[];
     code?: number;
     data?: PageQuestionBank_;
     message?: string;
@@ -64,23 +60,18 @@ declare namespace API {
   };
 
   type BaseResponsePageQuestionBankVO_ = {
-    records: never[];
     code?: number;
     data?: PageQuestionBankVO_;
     message?: string;
   };
 
   type BaseResponsePageQuestionVO_ = {
-    total: number;
-    records: never[];
     code?: number;
     data?: PageQuestionVO_;
     message?: string;
   };
 
   type BaseResponsePageUser_ = {
-    total(total: any): number | undefined;
-    records: never[];
     code?: number;
     data?: PageUser_;
     message?: string;
@@ -116,6 +107,12 @@ declare namespace API {
     message?: string;
   };
 
+  type BaseResponseString_ = {
+    code?: number;
+    data?: string;
+    message?: string;
+  };
+
   type BaseResponseUser_ = {
     code?: number;
     data?: User;
@@ -130,6 +127,11 @@ declare namespace API {
 
   type DeleteRequest = {
     id?: number;
+  };
+
+  type getAIResponseByQuestionUsingPOSTParams = {
+    /** question */
+    question?: string;
   };
 
   type getPostVOByIdUsingGETParams = {
@@ -462,6 +464,7 @@ declare namespace API {
   type QuestionBankQuestion = {
     createTime?: string;
     id?: number;
+    isDelete?: number;
     questionBankId?: number;
     questionId?: number;
     updateTime?: string;
@@ -506,6 +509,7 @@ declare namespace API {
   };
 
   type QuestionBankUpdateRequest = {
+    content?: string;
     description?: string;
     id?: number;
     picture?: string;
@@ -586,6 +590,7 @@ declare namespace API {
     userAccount?: string;
     userAvatar?: string;
     userName?: string;
+    userProfile?: string;
     userRole?: string;
   };
 

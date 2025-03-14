@@ -6,6 +6,7 @@ import Link from "next/link";
 interface Props {
     cardTitle?: React.ReactNode;
     questionList: API.QuestionVO[];
+    questionBankId?:number;
 }
 
 
@@ -16,6 +17,7 @@ interface Props {
  */
 const QuestionList = (props: Props) => {
     const { questionList = [] ,cardTitle} = props;
+
 
     const tagList = (tags: string[] = []) => {
         return tags.map((tag) => {

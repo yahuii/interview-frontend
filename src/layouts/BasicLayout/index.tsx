@@ -1,7 +1,7 @@
 "use client";
 import { GithubFilled, LogoutOutlined } from "@ant-design/icons";
 import { ProLayout } from "@ant-design/pro-components";
-import { Dropdown, message } from "antd";
+import { Button, Dropdown, message, Modal } from "antd";
 import React, { useState } from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
@@ -16,6 +16,7 @@ import { userLogoutUsingPost } from "@/api/userController";
 import { setLoginUser } from "@/store/loginUser";
 import { DEFAULT_USER } from "@/constants/user";
 import SearchInput from "@/layouts/BasicLayout/components/SearchInput";
+import ChatCard from "@/components/ChatCard";
 
 interface Props {
   children: React.ReactNode;
@@ -43,6 +44,17 @@ export default function BasicLayout({ children }: Props) {
   };
 
   const [text, setText] = useState<string>("");
+
+  const [open, setOpen] = useState(false);
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
+
   return (
     <div
       id="basicLayout"
@@ -122,6 +134,19 @@ export default function BasicLayout({ children }: Props) {
         )}
       >
         {children}
+        <Button id={"ai_btn"} type="primary" onClick={showModal}>
+          问 AI
+        </Button>
+        <Modal
+          title="Modal"
+          open={open}
+          onOk={hideModal}
+          onCancel={hideModal}
+          okText="确认"
+          cancelText="取消"
+        >
+          <ChatCard />
+        </Modal>
         {/*<MdEditor value={text} onChange={setText} />*/}
         {/*<MdViewer value={text} />*/}
       </ProLayout>

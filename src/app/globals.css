@@ -11,5 +11,6 @@ body {
 }
 .max-width-content {
     max-width: 1200px;
+    min-width: 1000px;
     margin: 0 auto;
 }
