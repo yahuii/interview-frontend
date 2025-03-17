@@ -4,5 +4,5 @@
 
 .chatcard{
     height: 800px;
-    overflow: scroll;
+    overflow-y: scroll;
 }

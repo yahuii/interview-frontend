@@ -18,6 +18,7 @@ import TagList from "@/components/TagList";
 import MdEditor from "@/components/MdEditor";
 import UpdateModal from "@/app/admin/question/components/UpdateModal";
 import CreateModal from "@/app/admin/question/components/CreateModal";
+import UpdateBankModal from "@/app/admin/question/components/UpdateBankModal";
 
 export default function bank() {
   // 当前用户点击的数据
@@ -25,6 +26,10 @@ export default function bank() {
 
   // 是否显示更新窗口
   const [updateModalVisible, setUpdateModalVisible] = useState<boolean>(false);
+
+  // 是否显示更新所属题库的弹窗
+  const [updateBankModalVisible, setUpdateBankModalVisible] =
+    useState<boolean>(false);
 
   const actionRef = useRef<ActionType>();
 
@@ -50,6 +55,12 @@ export default function bank() {
       hideInTable: true,
     },
     {
+      title: "所属题库",
+      dataIndex: "questionBankId",
+      hideInTable: true,
+      hideInForm: true,
+    },
+    {
       title: "标题",
       dataIndex: "title",
       ellipsis: true,
@@ -62,11 +73,7 @@ export default function bank() {
       valueType: "text",
       hideInSearch: true,
       width: 240,
-      renderFormItem: (
-        _,
-        { type, defaultRender, ...rest },
-        form,
-      ) => {
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
         return (
           // value 和 onchange 会通过 form 自动注入。
           <MdEditor
@@ -83,11 +90,7 @@ export default function bank() {
       ellipsis: true,
       hideInSearch: true,
       width: 440,
-      renderFormItem: (
-        _,
-        { type, defaultRender,  ...rest },
-        form,
-      ) => {
+      renderFormItem: (_, { type, defaultRender, ...rest }, form) => {
         return (
           // value 和 onchange 会通过 form 自动注入。
           <MdEditor
@@ -155,6 +158,14 @@ export default function bank() {
           >
             修改
           </Typography.Link>
+          <Typography.Link
+            onClick={() => {
+              setCurrentRow(record);
+              setUpdateBankModalVisible(true);
+            }}
+          >
+            修改所属题库
+          </Typography.Link>
           <Popconfirm
             title="删除题目"
             description="您确定要删除此题目吗?"
@@ -199,6 +210,8 @@ export default function bank() {
       <ProTable<API.Question>
         headerTitle={"查询表格"}
         actionRef={actionRef}
+        search={{ labelWidth: 120 }}
+        // scroll={{ x: true }}
         toolBarRender={() => [
           <Button
             type="primary"
@@ -252,6 +265,14 @@ export default function bank() {
           setUpdateModalVisible(false);
         }}
       ></UpdateModal>
+      <UpdateBankModal
+        visible={updateBankModalVisible}
+        questionId={currentRow?.id}
+        onCancel={() => {
+          setCurrentRow(undefined);
+          setUpdateBankModalVisible(false);
+        }}
+      />
     </main>
   );
 }
